@@ -1,0 +1,7 @@
+ alias alicnf='$EDITOR ~/.bash_aliases'
+ alias vcnf='$EDITOR ~/.vimrc'
+ alias bcnf='$EDITOR ~/.bashrc'
+ alias bsrc='source ~/.bashrc'
+ alias basic='vim ~/Bureau/Basique/basique.tex'
+ alias maj='sudo zypper ref && sudo zypper dup'
+ alias wis='whereis'

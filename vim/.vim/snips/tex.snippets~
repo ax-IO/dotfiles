@@ -1,0 +1,239 @@
+snippet test "Test insertion Latex snippets"
+\begin{${1:envname}}
+	\label{$2}
+	${3:contenu...}
+\end{$1}
+endsnippet
+snippet preambule "fontenc et inputenc"
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+endsnippet
+
+snippet f: "Application(non définie)" i
+${1:f} : \mathbb{${2:R}} \longrightarrow \mathbb{${3:R}}
+endsnippet
+
+snippet f:-> "Application(définie)" i
+${1:f} : \left\lbrace
+\begin{aligned}
+	\mathbb{${2:R}} &\longrightarrow \mathbb{${3:R}}\\
+	(${4:x, y}) &\mapsto $1($4)=${5:contenu...}
+\end{aligned}
+\right.
+$0
+endsnippet
+
+snippet -> "longue flèche" i
+\longrightarrow
+endsnippet
+snippet |-> "petite flèche (mapsto)" i
+\mapsto
+endsnippet
+snippet => "Implique" i
+\Rightarrow
+endsnippet
+snippet ssi "Equivaut" i
+\Leftrightarrow
+endsnippet
+snippet ==> "Implique (long)" i
+\Longrightarrow
+endsnippet
+snippet sssi "Equivaut (long)" i
+\Longleftrightarrow
+endsnippet
+
+snippet sr "carré de ...  (square)" i
+\left($1\right)^2
+endsnippet
+snippet srd "... au carré  (squared)"  i
+^2
+endsnippet
+snippet ² "... au carré  (squared)" i
+^2
+endsnippet
+
+snippet cu "cube de ...  (cube)" i
+\left($1\right)^3
+endsnippet
+snippet cud "... au cube  (cubed)" i
+^3
+endsnippet
+
+snippet EE "notation scientifique (x10^n)" i
+\times 10^{${1:n}}$0
+endsnippet
+
+snippet rac "racine carrée" i
+\sqrt{$1}$0
+endsnippet
+
+snippet inv "Inverse (forme 1/x)" i
+\frac{1}{$1}$0
+endsnippet
+
+snippet int "Intégrale (indéfinie)" i
+\int $1 \:dx $0
+endsnippet
+
+snippet inf "Symbole infini" i
+\infty
+endsnippet
+
+snippet "(\S+)\/$" "mettre en fraction" r
+\frac{`!p snip.rv=match.group(1)`}{${1:dénominateur}}
+endsnippet
+
+snippet dint "Intégrale (définie)" i
+\int_{${2:-\infty}}^{${3:\infty}} $1 \:dx $0
+endsnippet
+
+snippet LL "Symbole Lagrangien" i
+\mathcal{L}
+endsnippet
+snippet RR "Symbole Ensemble des Réels" i
+\mathbb{R}
+endsnippet
+snippet RR2 "Symbole Ensemble des Réels (dim. 2)" i
+\mathbb{R}^2
+endsnippet
+snippet RR3 "Symbole Ensemble des Réels(dim. 3)" i
+\mathbb{R}^3
+endsnippet
+snippet RRN "Symbole Ensemble des Réels(dim. N)" i
+\mathbb{R}^N
+endsnippet
+snippet NN "Symbole Ensemble des Entiers Naturels" i
+\mathbb{N}
+endsnippet
+snippet CC "Symbole Ensemble des Complexes" i
+\mathbb{C}
+endsnippet
+snippet ZZ "Symbole Ensemble des Entiers Relatifs" i
+\mathbb{Z}
+endsnippet
+snippet KK "Symbole Ensemble Réels + Complexes" i
+\mathbb{K}
+endsnippet
+snippet KKN "Symbole Ensemble Réels + Complexes(dim. N)" i
+\mathbb{K}^N
+endsnippet
+snippet QQ "Symbole Ensemble Rationel" i
+\mathbb{Q}^N
+endsnippet
+
+snippet E "Il existe..." i
+\exists
+endsnippet
+
+snippet \\ "Ensemble privé de..." i
+\setminus
+endsnippet
+snippet * "privé de 0" i
+^*
+endsnippet
+
+snippet ens "L'ensemble défini par... Soit x..." i
+\left\lbrace
+${1:x} \in ${2:\mathbb{R}} \mid $3 
+\right\rbrace
+endsnippet
+
+snippet milieu "milieu d'un intervalle 2 delta" i
+\left(${1:x}-${2:\delta}, $1 + $2\right)
+endsnippet
+
+snippet abs "Valeur Absolue (1 barre)" i
+\left|$1\right|
+endsnippet
+snippet norm "Norme (2 barres)" i
+\left|\left|$1\right|\right|
+endsnippet
+snippet vec "vecteur de..." i
+\vec{$1}
+endsnippet
+snippet "(\w)v" "description" ri
+\vec{`!p snip.rv=match.group(1)`}
+endsnippet
+
+snippet cc "est inclus dans..." i
+\subset
+endsnippet
+snippet xx "symbole fois 'x'" i
+\times
+endsnippet
+snippet :/ "Symbole divisé" i
+\div
+endsnippet
+	
+snippet . "point centré" i
+\cdot
+endsnippet
+snippet ... "3 petits points (horizontal)" i
+\cdots
+endsnippet
+snippet ...v "3 petits points (vertical) " i
+\vdots
+endsnippet
+snippet ...d "3 petits points (diagonal)" i
+\ddots
+endsnippet
+
+snippet >= "superieur ou égal" i
+\geq
+endsnippet
+snippet <= "inférieur ou égal" i
+\leq
+endsnippet
+snippet /= "non égal (différent)" i
+\neq
+endsnippet
+snippet ~= "environ égal" i
+\simeq
+endsnippet
+snippet >> "d'un ordre de grandeur bien supérieur" i
+\gg
+endsnippet
+snippet prop "proportionnel" i
+\propto
+endsnippet
+
+snippet fx "fonction f(x)=..." i
+f(x)=
+endsnippet
+snippet f'x "fonction f'(x)=..." i
+f'(x)=
+endsnippet
+snippet gx "fonction g(x)=..." i
+g(x)=
+endsnippet
+snippet g'x "fonction g'(x)=..." i
+g'(x)=
+endsnippet
+snippet hx "fonction h(x)=..." i
+h(x)=
+endsnippet
+snippet h'x "fonction h'(x)=..." i
+h'(x)=
+endsnippet	
+
+
+snippet ddx "dérivée selon x" i
+\frac{d}{dx}\,
+endsnippet
+snippet ddt "dérivée selon t" i
+\frac{d}{dt}\,
+endsnippet
+snippet dfdx "dérivée de f selon x" i
+\frac{d\,${1:f}}{dx}\,(x)=
+endsnippet
+snippet dfdt "dérivée de f selon t" i
+\frac{d\,${1:f}}{dt}\,(t)=
+endsnippet
+snippet part "dérivée partielle" i
+\frac{\part\,${1:f}}{\part x}\,(x)=
+endsnippet
+
+	
+	
+	
+	
