@@ -1,9 +1,27 @@
-snippet test "Test insertion Latex snippets"
-\begin{${1:envname}}
-	\label{$2}
-	${3:contenu...}
-\end{$1}
+snippet $ "inline math-mode" i
+$ ${VISUAL}$1 $
 endsnippet
+
+#snippet m "mode math 'inline'" i
+#$ $1 $
+#endsnippet
+
+snippet m! "mode math hors-paragraphe" i
+\[ ${VISUAL}$1 \]
+endsnippet
+snippet M "mode math hors-paragraphe" i
+\[ ${VISUAL}$1 \]
+endsnippet
+
+snippet exo "Création section exo numéro..."
+\section*{Exercice ${1:n}}%
+\label{sec:exercice_$1}
+(cf. page $2)
+
+$0
+endsnippet
+
+
 snippet preambule "fontenc et inputenc"
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -13,7 +31,7 @@ snippet f: "Application(non définie)" i
 ${1:f} : \mathbb{${2:R}} \longrightarrow \mathbb{${3:R}}
 endsnippet
 
-snippet f:-> "Application(définie)" i
+snippet f:! "Application(définie)" i
 ${1:f} : \left\lbrace
 \begin{aligned}
 	\mathbb{${2:R}} &\longrightarrow \mathbb{${3:R}}\\
@@ -24,66 +42,70 @@ $0
 endsnippet
 
 snippet -> "longue flèche" i
-\longrightarrow
+\longrightarrow 
 endsnippet
 snippet |-> "petite flèche (mapsto)" i
-\mapsto
+\mapsto 
 endsnippet
 snippet => "Implique" i
-\Rightarrow
+\Rightarrow 
 endsnippet
 snippet ssi "Equivaut" i
-\Leftrightarrow
+\Leftrightarrow 
 endsnippet
 snippet ==> "Implique (long)" i
-\Longrightarrow
+\Longrightarrow 
 endsnippet
 snippet sssi "Equivaut (long)" i
-\Longleftrightarrow
+\Longleftrightarrow 
 endsnippet
 
 snippet sr "carré de ...  (square)" i
-\left($1\right)^2
+\left(${VISUAL}$1\right)^2
 endsnippet
 snippet srd "... au carré  (squared)"  i
 ^2
 endsnippet
-snippet ² "... au carré  (squared)" i
+snippet ² "au carré (squared)" iA
 ^2
 endsnippet
 
 snippet cu "cube de ...  (cube)" i
-\left($1\right)^3
+\left(${VISUAL}$1\right)^3
 endsnippet
 snippet cud "... au cube  (cubed)" i
 ^3
 endsnippet
 
-snippet EE "notation scientifique (x10^n)" i
+snippet ee "notation scientifique (x10^n)" i
 \times 10^{${1:n}}$0
 endsnippet
 
 snippet rac "racine carrée" i
-\sqrt{$1}$0
+\sqrt{${VISUAL}$1}$0
 endsnippet
 
-snippet inv "Inverse (forme 1/x)" i
-\frac{1}{$1}$0
+snippet opp "Inverse (forme 1/x)" i
+\frac{1}{${VISUAL}$1}$0
+endsnippet
+
+snippet INV "Inverse (forme 1/x)" iA
+\frac{1}{${VISUAL}$1}$0
 endsnippet
 
 snippet int "Intégrale (indéfinie)" i
-\int $1 \:dx $0
+\int ${VISUAL}$1 \:dx $0
 endsnippet
 
-snippet inf "Symbole infini" i
-\infty
-endsnippet
+#snippet inf "Symbole infini" i
+#\infty
+#endsnippet
 
 snippet "(\S+)\/$" "mettre en fraction" r
 \frac{`!p snip.rv=match.group(1)`}{${1:dénominateur}}
 endsnippet
 
-snippet dint "Intégrale (définie)" i
+snippet intd "Intégrale (définie)" i
 \int_{${2:-\infty}}^{${3:\infty}} $1 \:dx $0
 endsnippet
 
@@ -121,21 +143,17 @@ snippet QQ "Symbole Ensemble Rationel" i
 \mathbb{Q}^N
 endsnippet
 
-snippet E "Il existe..." i
-\exists
-endsnippet
-
 snippet \\ "Ensemble privé de..." i
-\setminus
+\setminus 
 endsnippet
-snippet * "privé de 0" i
-^*
-endsnippet
+#snippet * "privé de 0" i
+#^*
+#endsnippet
 
 snippet ens "L'ensemble défini par... Soit x..." i
 \left\lbrace
 ${1:x} \in ${2:\mathbb{R}} \mid $3 
-\right\rbrace
+\right\rbrace 
 endsnippet
 
 snippet milieu "milieu d'un intervalle 2 delta" i
@@ -143,58 +161,80 @@ snippet milieu "milieu d'un intervalle 2 delta" i
 endsnippet
 
 snippet abs "Valeur Absolue (1 barre)" i
-\left|$1\right|
+\left|${VISUAL}$1\right|
 endsnippet
 snippet norm "Norme (2 barres)" i
-\left|\left|$1\right|\right|
+\left|\left|${VISUAL}$1\right|\right|
 endsnippet
 snippet vec "vecteur de..." i
-\vec{$1}
+\vec{${VISUAL}$1}
 endsnippet
-snippet "(\w)v" "description" ri
+snippet "(\w)v" "vecteur" ri
 \vec{`!p snip.rv=match.group(1)`}
 endsnippet
 
+snippet TQ "tel que..." iA
+\quad 
+endsnippet
+snippet AA "pour tout..." iA
+\forall 
+endsnippet
+snippet NE "Il existe pas..." i
+\nexists 
+endsnippet
+snippet EE "Il existe..." iA
+\exists 
+endsnippet
+snippet nin "n'appartient pas à l'ensemble" i
+\notin 
+endsnippet
+snippet inn "appartient à l'ensemble..." iA
+\in 
+endsnippet
+
+snippet in "appartient à l'ensemble..." i
+\in 
+endsnippet
 snippet cc "est inclus dans..." i
-\subset
+\subset 
 endsnippet
 snippet xx "symbole fois 'x'" i
-\times
+\times 
 endsnippet
 snippet :/ "Symbole divisé" i
-\div
+\div 
 endsnippet
 	
 snippet . "point centré" i
-\cdot
+\cdot 
 endsnippet
 snippet ... "3 petits points (horizontal)" i
-\cdots
+\cdots 
 endsnippet
 snippet ...v "3 petits points (vertical) " i
-\vdots
+\vdots 
 endsnippet
 snippet ...d "3 petits points (diagonal)" i
-\ddots
+\ddots 
 endsnippet
 
 snippet >= "superieur ou égal" i
-\geq
+\geq 
 endsnippet
 snippet <= "inférieur ou égal" i
-\leq
+\leq 
 endsnippet
 snippet /= "non égal (différent)" i
-\neq
+\neq 
 endsnippet
 snippet ~= "environ égal" i
-\simeq
+\simeq 
 endsnippet
 snippet >> "d'un ordre de grandeur bien supérieur" i
-\gg
+\gg 
 endsnippet
 snippet prop "proportionnel" i
-\propto
+\propto 
 endsnippet
 
 snippet fx "fonction f(x)=..." i
@@ -217,23 +257,307 @@ h'(x)=
 endsnippet	
 
 
-snippet ddx "dérivée selon x" i
-\frac{d}{dx}\,
+snippet ddx "dérivée selon x" iA
+\frac{d}{dx}\, 
 endsnippet
-snippet ddt "dérivée selon t" i
-\frac{d}{dt}\,
+snippet ddt "dérivée selon t" iA
+\frac{d}{dt}\, 
 endsnippet
-snippet dfdx "dérivée de f selon x" i
-\frac{d\,${1:f}}{dx}\,(x)=
+snippet dfdx "dérivée de f selon x" iA
+\frac{d\,${1:f}}{dx}\,(x)= 
 endsnippet
-snippet dfdt "dérivée de f selon t" i
-\frac{d\,${1:f}}{dt}\,(t)=
+snippet dfdt "dérivée de f selon t" iA
+\frac{d\,${1:f}}{dt}\,(t)= 
 endsnippet
 snippet part "dérivée partielle" i
-\frac{\part\,${1:f}}{\part x}\,(x)=
+\frac{\part\,${1:f}}{\part x}\,(x)= 
 endsnippet
 
+snippet ^^ "exposant long" iA
+^{${VISUAL}$1}
+endsnippet
+snippet __ "indice long" iA
+_{${VISUAL}$1}
+endsnippet
+
+snippet not "Notes (tcolorbox)"
+\begin{note}{${1:Titre}}{}
+	${VISUAL}$2
+\end{note}
+endsnippet
+
+snippet ink "Insère un graphique"
+\begin{figure}[${1:ht}]
+	\centering
+	\input{`bash ../graphique.sh`} 
+	\caption{${2:Titre}}
+	\label{fig:${2/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/g}}
+\end{figure}
+endsnippet
+
+snippet uni "symbole Union" i
+\cup
+endsnippet
+snippet inter "symbole Intersection" i
+\cap
+endsnippet
+
+# Intervalles
+snippet 0inf "intervalle positif" i
+[${1:0}, +\infty[
+endsnippet
+snippet 0inf! "intervalle positif ouvert" i
+]${1:0}, +\infty[
+endsnippet
+snippet -inf0 "intervalle négatif" i
+]-\infty, ${1:0}] 
+endsnippet
+snippet -inf0! "intervalle négatif ouvert" i
+]-\infty, ${1:0}[ 
+endsnippet
+snippet []! "intervalle entier" i
+\textlbrackdbl${1:1, n}\textrbrackdbl
+endsnippet
+snippet [] "Intervalle fermé-fermé" i
+[${1:a}, ${2:b}]
+endsnippet
+snippet [[ "Intervalle fermé-ouvert" i
+[${1:a}, ${2:b}[
+endsnippet
+snippet ]] "Intervalle ouvert-fermé" i
+]${1:a}, ${2:b}]
+endsnippet
+snippet ][ "Intervalle ouvert-ouvert" i
+]${1:a}, ${2:b}[
+endsnippet
+
+#Analyse
+snippet sup "borne supérieure" i
+\sup(${VISUAL}${1:A})
+endsnippet
+snippet min "borne inférieure" i
+\min(${VISUAL}${1:A})
+endsnippet
+
+#Suites
+snippet un "Terme général de la suite unn" i
+u_n
+endsnippet
+snippet vn "Terme général de la suite vnn" i
+v_n
+endsnippet
+snippet wn "Terme général de la suite wnn" i
+w_n
+endsnippet
+snippet unn "Suite de terme général un" i
+(u_n)_{n\in\mathbb{N}}
+endsnippet
+snippet vnn "Suite de terme général vn" i
+(v_n)_{n\in\mathbb{N}}
+endsnippet
+snippet wnn "Suite de terme général wn" i
+(w_n)_{n\in\mathbb{N}}
+endsnippet
+snippet u0 "premier terme de la suite unn" i
+u_0
+endsnippet
+snippet v0 "premier terme de la suite vnn" i
+v_0
+endsnippet
+snippet w0 "premier terme de la suite wnn" i
+w_0
+endsnippet
+snippet un+1 "terme suivant de la suite unn" i
+u_{n+1}
+endsnippet
+snippet vn+1 "terme suivant de la suite vnn" i
+v_{n+1}
+endsnippet
+snippet wn+1 "terme suivant de la suite wnn" i
+w_{n+1}
+endsnippet
+snippet sui_num "Suite numérique"
+suite numérique
+endsnippet
+snippet sui_rec "Suite réccurente"
+suite réccurente
+endsnippet
+snippet sui_ari "Suite arithmétique"
+suite arithmétique
+endsnippet
+snippet sui_geo "Suite géométrique"
+suite géométrique
+endsnippet
+snippet sui_ari_geo "Suite arithmético-géométrique"
+suite arithmético-géométrique
+endsnippet
+snippet sui_adj "Suite adjacente"
+suite adjacente
+endsnippet
+#Séries
+snippet Sn "Terme général de la série Snn (somme)" i
+\sum ${1:u}_n
+endsnippet
+snippet Sn! "Terme général de la série Snn" i
+S_n
+endsnippet
+snippet Snn "Série de terme général Sn" i
+(S_n)_{n\in\mathbb{N}}
+endsnippet
+snippet ser_num "Série numérique"
+série numérique
+endsnippet
+snippet ser_har "Série harmonique"
+série harmonique
+endsnippet
+
+snippet S_ser "Somme de la série"
+\sum_{${1:n=0}}^{${2:+\infty}}${3:u}_n
+endsnippet
+snippet SP "Somme Partielle"
+somme partielle
+endsnippet
+snippet dord "d'ordre n"
+d'ordre ${1:n}
+endsnippet
+
+#Edition de Texte
+snippet tt "texte dans le mode math" i
+\text{ ${VISUAL}$1 }
+endsnippet
+
+#Abbréviations
+snippet mq "Montrons que..."
+Montrons que 
+endsnippet
+snippet mq! "Montrer que..."
+Montrer que 
+endsnippet
+
+
+snippet pge "Plus Grand élément"
+plus grand élément
+endsnippet
+snippet ppe "Plus Petit élément"
+plus petit élément
+endsnippet
+snippet bor_sup "Borbe supérieure"
+borne supérieure
+endsnippet
+snippet bor_inf "Borbe inférieure"
+borne inférieure
+endsnippet
+
+
+snippet cvge "converge"
+converge
+endsnippet
+snippet dvge "diverge"
+diverge
+endsnippet
+snippet cvge! "convergente"
+convergente
+endsnippet
+snippet dvge! "divergente"
+divergente
+endsnippet
+snippet tg "terme général"
+terme général
+endsnippet
+snippet PE "Partie Entière"
+partie entière
+endsnippet
+snippet approx "approximation"
+approximation
+endsnippet
+snippet mult "multiplication"
+multiplication
+endsnippet
+
+snippet croi "croissante"
+croissante
+endsnippet
+snippet croi! "strictement croissante"
+strictement croissante
+endsnippet
+snippet decr "décroissante"
+décroissante
+endsnippet
+snippet decr! "strictement décroissante"
+strictement décroissante
+endsnippet
+
+snippet tv "tend vers"
+tend vers
+endsnippet
+snippet limi "limite"
+limite
+endsnippet
+snippet ss "sous-suite"
+sous-suite
+endsnippet
+
+#Autres
+snippet ddr "dense dans R"
+dense dans $\mathbb{R}$
+endsnippet
+snippet EV "espace vectoriel"
+espace vectoriel
+endsnippet
+snippet sev "sous-espace vectoriel"
+sous-espace vectoriel
+endsnippet
+snippet seg "segment"
+segment
+endsnippet
+snippet lin "linéaire"
+linéaire
+endsnippet
+snippet hgen "homogène"
+homogène
+endsnippet
+snippet hmor "homomorphisme"
+homomorphisme
+endsnippet
+snippet comp "comparaison"
+comparaison
+endsnippet
+snippet cplx "complexe"
+complexe
+endsnippet
+snippet pos "positif"
+positif
+endsnippet
+snippet neg "négatif"
+négatif
+endsnippet
+snippet dec "décimal"
+décimal
+endsnippet
+snippet CNS "Condition nécessaire et suffisante"
+Condition nécessaire et suffisante
+endsnippet
+
+snippet ppté "propriété"
+propriété
+endsnippet
+snippet theo "théorème"
+théorème
+endsnippet
+snippet demo "démonstration"
+démonstration
+endsnippet
+
+#Noms propres
+snippet BW "Bolzano-Weierstrass"
+Bolzano-Weierstrass
+endsnippet
+snippet Rie "Riemann"
+Riemann
+endsnippet
+
+#Noms de théorème
 	
 	
 	
-	
+

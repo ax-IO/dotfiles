@@ -132,6 +132,8 @@ Plug 'lifepillar/vim-solarized8'
 call plug#end()
 " VIM-PLUG SECTION END
 
+" map NERDTree
+map <C-n> :NERDTreeToggle<CR>
 " Powerline options
 set  rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim/
 set laststatus=2
@@ -175,8 +177,8 @@ let g:vimtex_view_general_viewer = 'zathura'
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 "let g:ycm_key_list_select_completion = ['<TAB>', '<Down>'] "Default
 let g:UltiSnipsExpandTrigger="<c-space>"
-let g:UltiSnipsJumpForwardTrigger="<A-right>"
-let g:UltiSnipsJumpBackwardTrigger="<A-left>"
+"let g:UltiSnipsJumpForwardTrigger="<A-right>"
+"let g:UltiSnipsJumpBackwardTrigger="<A-left>"
 
 let g:UltiSnipsSnippetsDir="~/.vim/snips"
 let g:UltiSnipsSnippetDirectories=["snips", "UltiSnips"]
@@ -186,4 +188,8 @@ let g:UltiSnipsEditSplit="vertical"
 nmap <leader>ue :UltiSnipsEdit<cr>
 "Plug 'mattn/emmet-vim'
 
+set autochdir
 
+" Commandes latex mode math
+vmap m di$<SPACE><Esc>gpi<SPACE>$
+vmap M di[\<SPACE><Esc>gpi<SPACE>\]
