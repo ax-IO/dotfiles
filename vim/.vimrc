@@ -24,6 +24,14 @@ map <F6> :setlocal spell! spelllang=fr<CR>
 " Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
 set splitbelow splitright
 
+"map <Up> <Esc>gki
+"map <Down> <Esc>gji
+map <C-Up> g<Up>
+map <C-Down> g<Down>
+imap <C-Up> <C-[> g<Up>i
+imap <C-Down> <C-[> g<Down>i
+
+nnoremap <c-l> :nohl<cr><c-l>
 
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
@@ -116,13 +124,16 @@ Plug 'honza/vim-snippets'
 Plug 'vim-scripts/vim-auto-save'
 Plug 'Valloric/YouCompleteMe'
 Plug 'scrooloose/nerdcommenter'
-Plug 'tpope/vim-surround'
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug '~/.fzf'
+
+" Surroundind
+Plug 'tpope/vim-surround'
+"Plug 'machakann/vim-sandwich'
 
 " ColorSchemes
 Plug 'morhetz/gruvbox'
@@ -177,19 +188,23 @@ let g:vimtex_view_general_viewer = 'zathura'
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 "let g:ycm_key_list_select_completion = ['<TAB>', '<Down>'] "Default
 let g:UltiSnipsExpandTrigger="<c-space>"
-"let g:UltiSnipsJumpForwardTrigger="<A-right>"
-"let g:UltiSnipsJumpBackwardTrigger="<A-left>"
+let g:UltiSnipsJumpForwardTrigger="<space><space>"
+let g:UltiSnipsJumpBackwardTrigger="<space><BS>"
 
 let g:UltiSnipsSnippetsDir="~/.vim/snips"
 let g:UltiSnipsSnippetDirectories=["snips", "UltiSnips"]
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 "Open UltiSnips edit function
-nmap <leader>ue :UltiSnipsEdit<cr>
-"Plug 'mattn/emmet-vim'
+nmap <space>ue :UltiSnipsEdit<cr>
+nmap <space>ds :vsp<SPACE>~/dotfiles/vim/.vim/plugged/vim-snippets/snippets/tex.snippets<CR>:sp<SPACE>~/dotfiles/vim/.vim/plugged/vim-snippets/UltiSnips/tex.snippets<CR>
 
 set autochdir
 
 " Commandes latex mode math
 vmap m di$<SPACE><Esc>gpi<SPACE>$
 vmap M di[\<SPACE><Esc>gpi<SPACE>\]
+
+let maplocalleader="\<Space>"
+let g:vimtex_imaps_leader="è"
+

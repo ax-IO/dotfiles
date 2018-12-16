@@ -1,3 +1,36 @@
+# DEFINITION FONCTIONS GLOBALES PYTHON
+global !p
+def complete(t, opts):
+	if t:
+		opts = [ m[len(t):] for m in opts if m.startswith(t) ]
+	if len(opts) == 1:
+		return opts[0]
+	return "(" + '|'.join(opts) + ')'
+endglobal
+
+global !p
+def create_row_placeholders(snip):
+    # retrieving single line from current string and treat it like tabstops
+    # count
+    # a=nbe de ligne	b=nbe de colonne
+    a, b = snip.buffer[snip.line]
+    a = int(a)
+    b = int(b)
+    placeholders_amount = b
+
+    # erase current line
+    snip.buffer[snip.line] = ''
+
+    # create anonymous snippet with expected content and number of tabstops
+    anon_snippet_body = ' & '.join(['$' + str(i+1)
+                                    for i in range(0, placeholders_amount)])
+
+    # expand anonymous snippet
+    a = a + 1
+    for i in range(1,a):
+    snip.expand_anon(anon_snippet_body+'\\\\\\\n')
+endglobal
+#
 snippet $ "inline math-mode" i
 $ ${VISUAL}$1 $
 endsnippet
@@ -81,7 +114,7 @@ snippet ee "notation scientifique (x10^n)" i
 \times 10^{${1:n}}$0
 endsnippet
 
-snippet rac "racine carrée" i
+snippet sqrt "racine carrée" i
 \sqrt{${VISUAL}$1}$0
 endsnippet
 
@@ -101,8 +134,12 @@ endsnippet
 #\infty
 #endsnippet
 
-snippet "(\S+)\/$" "mettre en fraction" r
-\frac{`!p snip.rv=match.group(1)`}{${1:dénominateur}}
+snippet "(\S+)\/" "mettre en fraction" r
+\frac{${VISUAL}`!p snip.rv=match.group(1)`}{${1:denominateur}}
+endsnippet
+
+snippet "(\S+)COMP" "compris entre p et q" r
+${1:p}\leq ${VISUAL}`!p snip.rv=match.group(1)` \leq ${2:q}
 endsnippet
 
 snippet intd "Intégrale (définie)" i
@@ -144,7 +181,7 @@ snippet QQ "Symbole Ensemble Rationel" i
 endsnippet
 
 snippet \\ "Ensemble privé de..." i
-\setminus 
+\setminus \lbrace $1 \rbrace
 endsnippet
 #snippet * "privé de 0" i
 #^*
@@ -192,9 +229,6 @@ snippet inn "appartient à l'ensemble..." iA
 \in 
 endsnippet
 
-snippet in "appartient à l'ensemble..." i
-\in 
-endsnippet
 snippet cc "est inclus dans..." i
 \subset 
 endsnippet
@@ -205,7 +239,7 @@ snippet :/ "Symbole divisé" i
 \div 
 endsnippet
 	
-snippet . "point centré" i
+snippet point "point centré" i
 \cdot 
 endsnippet
 snippet ... "3 petits points (horizontal)" i
@@ -226,6 +260,9 @@ snippet <= "inférieur ou égal" i
 endsnippet
 snippet /= "non égal (différent)" i
 \neq 
+endsnippet
+snippet != "non égal (différent)" i
+\neq
 endsnippet
 snippet ~= "environ égal" i
 \simeq 
@@ -295,12 +332,17 @@ snippet ink "Insère un graphique"
 \end{figure}
 endsnippet
 
+snippet saut "saute une ligne (alignée)" i
+$1 ${2:=} $3
+endsnippet
+
 snippet uni "symbole Union" i
 \cup
 endsnippet
 snippet inter "symbole Intersection" i
 \cap
 endsnippet
+
 
 # Intervalles
 snippet 0inf "intervalle positif" i
@@ -316,7 +358,7 @@ snippet -inf0! "intervalle négatif ouvert" i
 ]-\infty, ${1:0}[ 
 endsnippet
 snippet []! "intervalle entier" i
-\textlbrackdbl${1:1, n}\textrbrackdbl
+\text{\textlbrackdbl}${1:1, n}\text{\textrbrackdbl}
 endsnippet
 snippet [] "Intervalle fermé-fermé" i
 [${1:a}, ${2:b}]
@@ -433,7 +475,12 @@ endsnippet
 snippet mq! "Montrer que..."
 Montrer que 
 endsnippet
-
+snippet càd "c'est à dire..."
+c'est à dire
+endsnippet
+snippet °° "-ion" iA
+ion 
+endsnippet
 
 snippet pge "Plus Grand élément"
 plus grand élément
@@ -519,9 +566,9 @@ endsnippet
 snippet hmor "homomorphisme"
 homomorphisme
 endsnippet
-snippet comp "comparaison"
-comparaison
-endsnippet
+#snippet comp "comparaison"
+#comparaison
+#endsnippet
 snippet cplx "complexe"
 complexe
 endsnippet
@@ -542,10 +589,41 @@ snippet ppté "propriété"
 propriété
 endsnippet
 snippet theo "théorème"
-théorème
+théorème 
 endsnippet
 snippet demo "démonstration"
-démonstration
+démonstration 
+endsnippet
+snippet cex "Contre-exemple :"
+\paragraph{Contre-exemple :}
+
+endsnippet
+snippet sym "symétrique"
+symétrique 
+endsnippet
+snippet sym! "antisymétrique"
+antisymétrique 
+endsnippet
+snippet scal "scalaire" 
+scalaire 
+endsnippet
+snippet coeff "coefficient" 
+coefficient 
+endsnippet
+snippet bas_can "base canonique"
+base canonique 
+endsnippet
+snippet comb_lin "combinaison linéaire"
+combinaison linéaire 
+endsnippet
+snippet fam "famille"
+famille 
+endsnippet
+snippet gener "génératrice" 
+génératrice 
+endsnippet
+snippet resp "respectivement" 
+respectivement 
 endsnippet
 
 #Noms propres
@@ -560,4 +638,47 @@ endsnippet
 	
 	
 	
+#Commandes personnelles
+snippet hl "highlight{...}(jaune)" i
+\highlight{${VISUAL}$1}
+endsnippet
+snippet hl! "highlight[...]{...}"
+\highlight[${1:vert}, draw=${2:bleu}]{${VISUAL}$3}
+endsnippet
+
+#Matrices
+snippet mat "type de matrice" 
+matrice $1`!p snip.rv=complete(t[1], ['colonne','ligne','carrée','carée symétrique','carée antisymétrique','triangulaire supérieure','triangulaire inférieure','diagonale','scalaire','transposée','nilpotente','inversible','inverse','de passage','équivalente','semblable','jacobienne'])` 
+endsnippet
+snippet det "Déterminant"
+\begin{vmatrix}
+${1:a} & ${2:b} \\\ 
+${3:c} & ${4:d}
+\end{vmatrix}
+endsnippet
+snippet sys "Système de 2 équation"
+(\mathcal{${1:S}}) :\begin{cases}
+${2:a} &= ${3:b}\\\
+${4:c} &= ${5:d}
+\end{cases}
+endsnippet
+snippet {}! "insère accolades \lbrace..\rbrace" i
+\left\lbrace $1 \right\rbrace
+endsnippet
+snippet matnxp "Matrice n*p" i
+${1:A} = (${2:a}_{${3:i},${4:j}})_{\substack{${5:1} \le $3\le ${6:n} \\${7:1}\le $4\le ${8:p}}
+endsnippet
+
+post_jump "create_row_placeholders(snip)"
+snippet "mat(\d)x(\d)" "Matrice n*p" ir
+\begin{matrix}
+$0`!p snip.rv = match.group(1)+match.group(2)`
+\end{matrix}
+endsnippet
+snippet mnpk "Espace vectoriel de matrices"
+\mathcal(M)_{n, p}(\mathbb{K})
+endsnippet
+snippet mnk "Espace vectoriel de matrices carrées"
+\mathcal(M)_n(\mathbb{K})
+endsnippet
 
