@@ -15,7 +15,8 @@ filetype plugin on
 " syntax on
 set encoding=utf-8
 set number relativenumber
-
+set mouse=a
+set autochdir
 map <F6> :setlocal spell! spelllang=fr<CR>
 " Enable autocompletion:
 	set wildmode=longest,list,full
@@ -32,6 +33,16 @@ imap <C-Up> <C-[> g<Up>i
 imap <C-Down> <C-[> g<Down>i
 
 nnoremap <c-l> :nohl<cr><c-l>
+
+" The following mappings (which can go in your vimrc) simplify navigating the results of quickfix commands such as (among others) :helpgrep
+" (from http://vim.wikia.com/wiki/Learn_to_use_help#Simplify_help_navigation)
+:nnoremap <S-F1>  :cc<CR>
+:nnoremap <F2>    :cnext<CR>
+:nnoremap <S-F2>  :cprev<CR>
+:nnoremap <F3>    :cnfile<CR>
+:nnoremap <S-F3>  :cpfile<CR>
+:nnoremap <F4>    :cfirst<CR>
+:nnoremap <S-F4>  :clast<CR>
 
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
@@ -85,8 +96,7 @@ endif
 
 " vim-plug automatic installation
 if empty(glob('~/.vim/autoload/plug.vim'))
- silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-   \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+ silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
@@ -127,7 +137,7 @@ Plug 'scrooloose/nerdcommenter'
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-
+"Plug 'ryanoasis/vim-devicons'
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug '~/.fzf'
 
@@ -145,6 +155,9 @@ call plug#end()
 
 " map NERDTree
 map <C-n> :NERDTreeToggle<CR>
+" NERDCommenter configuration
+
+
 " Powerline options
 set  rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim/
 set laststatus=2
@@ -158,11 +171,11 @@ let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 let g:tex_flavor = "latex"
 
 " vimtex plugin configuration
-"let g:vimtex_view_general_viewer = 'okular'
-"let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
-"let g:vimtex_view_general_options_latexmk = '--unique'
+let g:vimtex_view_general_viewer = 'okular'
+let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+let g:vimtex_view_general_options_latexmk = '--unique'
 "let g:vimtex_view_general_viewer = 'mupdf'
-let g:vimtex_view_general_viewer = 'zathura'
+"let g:vimtex_view_general_viewer = 'zathura'
 
 " NeoSnippet Option"s
 "" Plugin key-mappings.
@@ -185,6 +198,16 @@ let g:vimtex_view_general_viewer = 'zathura'
   "set conceallevel=2 concealcursor=niv
 "endif
 
+" Enable auto-completion with YCM
+if !exists('g:ycm_semantic_triggers')
+	let g:ycm_semantic_triggers = {}
+endif
+let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
+
+let mapleader="\<Space>"
+let maplocalleader="\\"
+let g:vimtex_imaps_leader="è"
+
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 "let g:ycm_key_list_select_completion = ['<TAB>', '<Down>'] "Default
 let g:UltiSnipsExpandTrigger="<c-space>"
@@ -196,15 +219,15 @@ let g:UltiSnipsSnippetDirectories=["snips", "UltiSnips"]
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 "Open UltiSnips edit function
-nmap <space>ue :UltiSnipsEdit<cr>
-nmap <space>ds :vsp<SPACE>~/dotfiles/vim/.vim/plugged/vim-snippets/snippets/tex.snippets<CR>:sp<SPACE>~/dotfiles/vim/.vim/plugged/vim-snippets/UltiSnips/tex.snippets<CR>
+nmap <localleader>ue :UltiSnipsEdit<cr>
+nmap <localleader>ts :vsp<SPACE>~/dotfiles/vim/.vim/plugged/vim-snippets/snippets/tex.snippets<CR>:sp<SPACE>~/dotfiles/vim/.vim/plugged/vim-snippets/UltiSnips/tex.snippets<CR>
 
-set autochdir
+nmap <localleader>la <localleader>ls<localleader>ll
 
 " Commandes latex mode math
 vmap m di$<SPACE><Esc>gpi<SPACE>$
 vmap M di[\<SPACE><Esc>gpi<SPACE>\]
 
-let maplocalleader="\<Space>"
-let g:vimtex_imaps_leader="è"
-
+inoremap ( ()<left>
+"inoremap [ []<left>
+inoremap { {}<left>

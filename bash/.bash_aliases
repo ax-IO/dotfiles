@@ -5,3 +5,4 @@
  alias basic='vim ~/Bureau/Basique/basique.tex'
  alias maj='sudo zypper ref && sudo zypper dup'
  alias wis='whereis'
+ alias v='vim'

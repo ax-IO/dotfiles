@@ -26,13 +26,14 @@ def create_row_placeholders(snip):
                                     for i in range(0, placeholders_amount)])
 
     # expand anonymous snippet
-    a = a + 1
+    #a = a + 1
+    snip.expand_anon(anon_snippet_body)
     for i in range(1,a):
-    snip.expand_anon(anon_snippet_body+'\\\\\\\n')
+        snip.expand_anon(anon_snippet_body+'\\\\\\\n')
 endglobal
 #
 snippet $ "inline math-mode" i
-$ ${VISUAL}$1 $
+$ ${VISUAL}$1 $ 
 endsnippet
 
 #snippet m "mode math 'inline'" i
@@ -41,15 +42,19 @@ endsnippet
 
 snippet m! "mode math hors-paragraphe" i
 \[ ${VISUAL}$1 \]
+
 endsnippet
 snippet M "mode math hors-paragraphe" i
 \[ ${VISUAL}$1 \]
+
 endsnippet
 
 snippet exo "Création section exo numéro..."
 \section*{Exercice ${1:n}}%
 \label{sec:exercice_$1}
 (cf. page $2)
+
+\bigskip
 
 $0
 endsnippet
@@ -60,36 +65,58 @@ snippet preambule "fontenc et inputenc"
 \usepackage[utf8]{inputenc}
 endsnippet
 
+#logique
+snippet ET "et (logique)" i
+\left($1\right) \text{ ET } \left($2\right) 
+endsnippet
+snippet OU "ou (logique)" i
+\left($1\right) \text{ OU } \left($2\right) 
+endsnippet
+snippet NON "non (logique)" i
+\text{NON }\left($1${VISUAL}\right)
+endsnippet
+
 snippet f: "Application(non définie)" i
-${1:f} : \mathbb{${2:R}} \longrightarrow \mathbb{${3:R}}
+${1:f} : ${2:\mathbb{${3:R}}_{${4:+}}^{${5:*}}} \longto ${6:\mathbb{${7:R}}_{${8:-}}^{${9:2}}}
 endsnippet
 
 snippet f:! "Application(définie)" i
-${1:f} : \left\lbrace
+\[ ${1:f} : \left|\quad
 \begin{aligned}
-	\mathbb{${2:R}} &\longrightarrow \mathbb{${3:R}}\\
-	(${4:x, y}) &\mapsto $1($4)=${5:contenu...}
-\end{aligned}
-\right.
+	${2:\mathbb{${3:R}}_{${4:+}}^{${5:3}}}&\;\longto&\; &${6:\mathbb{${7:R}}_{${8:-}}^{${9:*}}} \\\\
+	(${10:x, y, z})&\;\longmapsto&\; ${11:$1($10)=}&\: ${12:3x^2-2x+1}
+\end{aligned}\right. \]
 $0
 endsnippet
 
-snippet -> "longue flèche" i
+snippet --> "longue flèche" i
 \longrightarrow 
 endsnippet
-snippet |-> "petite flèche (mapsto)" i
+snippet ->t "flèche à droite (texte au dessus)" i
+\xrightarrow{${1:abc}}
+endsnippet
+snippet <-t "flèche à gauche (texte au dessus)" i
+\xleftarrow{${1:abc}}
+endsnippet
+snippet =t "symbole égal (texte au dessus)" i
+\stackrel{${1:abc}}{=}
+endsnippet
+snippet ->! "petite flèche (mapsto)" i
 \mapsto 
 endsnippet
 snippet => "Implique" i
 \Rightarrow 
 endsnippet
+snippet equi "symbole équivaut" i
+\equiv 
+endsnippet
 snippet ssi "Equivaut" i
 \Leftrightarrow 
 endsnippet
-snippet ==> "Implique (long)" i
+snippet =>> "Implique (long)" i
 \Longrightarrow 
 endsnippet
-snippet sssi "Equivaut (long)" i
+snippet ssii "Equivaut (long)" i
 \Longleftrightarrow 
 endsnippet
 
@@ -125,6 +152,9 @@ endsnippet
 snippet INV "Inverse (forme 1/x)" iA
 \frac{1}{${VISUAL}$1}$0
 endsnippet
+snippet REC "Réciproque " i
+^{-1}
+endsnippet
 
 snippet int "Intégrale (indéfinie)" i
 \int ${VISUAL}$1 \:dx $0
@@ -134,6 +164,12 @@ endsnippet
 #\infty
 #endsnippet
 
+snippet frac! "petite fraction " i
+\nicefrac{ ${VISUAL}$1 }{ $2 } 
+endsnippet
+snippet lim "limite" i
+\lim\limits_{${1:n} \to ${2:\infty}} 
+endsnippet
 snippet "(\S+)\/" "mettre en fraction" r
 \frac{${VISUAL}`!p snip.rv=match.group(1)`}{${1:denominateur}}
 endsnippet
@@ -210,8 +246,95 @@ snippet "(\w)v" "vecteur" ri
 \vec{`!p snip.rv=match.group(1)`}
 endsnippet
 
+#Accents internationnaux (1 caractère)
+snippet "(\w|\\\w+{.})~" "tilde" ri
+\tilde{`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "(\w|\\\w+{.})\^" "chapeau" ri
+\hat{`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "(\w|\\\w+{.})=" "barre (accent)" ri
+\bar{`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "(\w|\\\w+{.})\." "point (accent)" ri
+\dot{`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "(\w|\\\w+{.})\.\." "point-point (accent)" ri
+\ddot{`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "(\w|\\\w+{.})\.3" "point-point-point (accent)" ri
+\dddot{`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "(\w|\\\w+{.})°" "rond (accent)" ri
+\mathring{`!p snip.rv=match.group(1)`}
+endsnippet
+
+snippet ↓ "texte au dessous" i
+\underset{${1:under}}{${VISUAL}${2:texte}}
+endsnippet
+snippet ↑ "texte au dessus" i
+\overset{${1:over}}{${VISUAL}${2:texte}}
+endsnippet
+#Symboles au-dessus
+snippet "(\w+|\\\w+{[^\\]+})↑~" "tilde (au dessus)" ri
+\widetilde{`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "(\w+|\\\w+{[^\\]+})↑\^" "chapeau (au dessus)" ri
+\widehat{`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "(\w+|\\\w+{[^\\]+})↑<-" "flèche à gauche (au dessus)" ri
+\overleftarrow{`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "(\w+|\\\w+{[^\\]+})↑->" "flèche à droite(au dessus)" ri
+\overrightarrow{`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "(\w+|\\\w+{[^\\]+})↑=" "barre (au dessus)" ri
+\overline{`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "(\w+|\\\w+{[^\\]+})↑}" "accolade (au dessus)" ri
+\overbrace{`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "(\w+|\\\w+{[^\\]+})↑<->" "flèche à gauche et à droite (au dessus)" ri
+\overleftrightarrow{`!p snip.rv=match.group(1)`}
+endsnippet
+
+#Symboles au-dessous
+snippet "(\w+|\\\w+{[^\\]+})↓=" "barre (au dessous)" ri
+\underline{`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "(\w+|\\\w+{[^\\]+})↓}" "accolade (au dessous)" ri
+\underbrace{`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "(\w+|\\\w+{[^\\]+})↓<-" "flèche à gauche (au dessous)" ri
+\underleftarrow{`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "(\w+|\\\w+{[^\\]+})↓->" "flèche à droite (au dessous)" ri
+\underrightarrow{`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "(\w+|\\\w+{[^\\]+})↓<->" "flèche à gauche et à droite (au dessous)" ri
+\underleftrightarrow{`!p snip.rv=match.group(1)`}
+endsnippet
+
+
+#Styles de caractères
+snippet cal "Calligraphique" i
+\mathcal{$1}
+endsnippet
+
 snippet TQ "tel que..." iA
 \quad 
+endsnippet
+snippet ,, "tel que..." iA
+\quad 
+endsnippet
+snippet TQQ "tel que..." iA
+\qquad 
+endsnippet
+snippet ;; "tel que..." iA
+\qquad 
+endsnippet
+snippet CAR "... car ..." i
+\qquad \text{car} ${VISUAL}$1
 endsnippet
 snippet AA "pour tout..." iA
 \forall 
@@ -222,16 +345,22 @@ endsnippet
 snippet EE "Il existe..." iA
 \exists 
 endsnippet
-snippet nin "n'appartient pas à l'ensemble" i
-\notin 
-endsnippet
 snippet inn "appartient à l'ensemble..." iA
 \in 
 endsnippet
-
+snippet nin "n'appartient pas à l'ensemble" i
+\notin 
+endsnippet
 snippet cc "est inclus dans..." i
 \subset 
 endsnippet
+snippet inc "est inclus dans..." i
+\subset 
+endsnippet
+snippet inc! "n'est pas inclus dans..." i
+\not\subset 
+endsnippet
+
 snippet xx "symbole fois 'x'" i
 \times 
 endsnippet
@@ -252,6 +381,10 @@ snippet ...d "3 petits points (diagonal)" i
 \ddots 
 endsnippet
 
+snippet == "égalité" i
+$1 = $2
+$0
+endsnippet
 snippet >= "superieur ou égal" i
 \geq 
 endsnippet
@@ -297,14 +430,26 @@ endsnippet
 snippet ddx "dérivée selon x" iA
 \frac{d}{dx}\, 
 endsnippet
+snippet dfx "dérivée de f selon x" iA
+\frac{d\,${1:f}}{dx}\,(x)= 
+endsnippet
+snippet d2fx "dérivée de f selon x (ordre 2)" iA
+\frac{d^2\,${1:f}}{dx^2}\,(x)= 
+endsnippet
+snippet dnfx "dérivée de f selon x (ordre n)" iA
+\frac{d^${1:n}\,${2:f}}{dx^$1}\,(x)= 
+endsnippet
 snippet ddt "dérivée selon t" iA
 \frac{d}{dt}\, 
 endsnippet
-snippet dfdx "dérivée de f selon x" iA
-\frac{d\,${1:f}}{dx}\,(x)= 
-endsnippet
-snippet dfdt "dérivée de f selon t" iA
+snippet dft "dérivée de f selon t" iA
 \frac{d\,${1:f}}{dt}\,(t)= 
+endsnippet
+snippet d2ft "dérivée de f selon t (ordre 2)" iA
+\frac{d^2\,${1:f}}{dx^2}\,(t)= 
+endsnippet
+snippet dnft "dérivée de f selon t (ordre n)" iA
+\frac{d^${1:n}\,${2:f}}{dx^$1}\,(t)= 
 endsnippet
 snippet part "dérivée partielle" i
 \frac{\part\,${1:f}}{\part x}\,(x)= 
@@ -316,6 +461,7 @@ endsnippet
 snippet __ "indice long" iA
 _{${VISUAL}$1}
 endsnippet
+
 
 snippet not "Notes (tcolorbox)"
 \begin{note}{${1:Titre}}{}
@@ -333,7 +479,8 @@ snippet ink "Insère un graphique"
 endsnippet
 
 snippet saut "saute une ligne (alignée)" i
-$1 ${2:} $3
+\\\\
+&${2:=} $3
 endsnippet
 
 snippet uni "symbole Union" i
@@ -341,6 +488,9 @@ snippet uni "symbole Union" i
 endsnippet
 snippet inter "symbole Intersection" i
 \cap
+endsnippet
+snippet rond "rond" i
+\circ 
 endsnippet
 
 
@@ -356,6 +506,9 @@ snippet -inf0 "intervalle négatif" i
 endsnippet
 snippet -inf0! "intervalle négatif ouvert" i
 ]-\infty, ${1:0}[ 
+endsnippet
+snippet -infinf "intervalle entier" i
+]-\infty, +\infty[
 endsnippet
 snippet []! "intervalle entier" i
 \text{\textlbrackdbl}${1:1, n}\text{\textrbrackdbl}
@@ -377,8 +530,8 @@ endsnippet
 snippet sup "borne supérieure" i
 \sup(${VISUAL}${1:A})
 endsnippet
-snippet min "borne inférieure" i
-\min(${VISUAL}${1:A})
+snippet inf "borne inférieure" i
+\inf(${VISUAL}${1:A})
 endsnippet
 
 #Suites
@@ -488,10 +641,10 @@ endsnippet
 snippet ppe "Plus Petit élément"
 plus petit élément
 endsnippet
-snippet bor_sup "Borbe supérieure"
+snippet bor_s "Borne supérieure"
 borne supérieure
 endsnippet
-snippet bor_inf "Borbe inférieure"
+snippet bor_i "Borne inférieure"
 borne inférieure
 endsnippet
 
@@ -537,9 +690,9 @@ endsnippet
 snippet tv "tend vers"
 tend vers
 endsnippet
-snippet limi "limite"
-limite
-endsnippet
+#snippet limi "limite"
+#limite
+#endsnippet
 snippet ss "sous-suite"
 sous-suite
 endsnippet
@@ -604,9 +757,9 @@ endsnippet
 snippet sym! "antisymétrique"
 antisymétrique 
 endsnippet
-snippet scal "scalaire" 
-scalaire 
-endsnippet
+#snippet scal "scalaire" 
+#scalaire 
+#endsnippet
 snippet coeff "coefficient" 
 coefficient 
 endsnippet
@@ -645,6 +798,12 @@ endsnippet
 snippet hl! "highlight[...]{...}"
 \highlight[${1:vert}, draw=${2:bleu}]{${VISUAL}$3}
 endsnippet
+snippet cancel "... barré (crossed-out)" i
+\cancel{${VISUAL}$1}
+endsnippet
+snippet cancelx "... barré (crossed-out)" i
+\xcancel{${VISUAL}$1}
+endsnippet
 
 #Matrices
 snippet mat "type de matrice" 
@@ -670,11 +829,24 @@ ${1:A} = (${2:a}_{${3:i},${4:j}})_{\substack{${5:1} \le $3\le ${6:n} \\${7:1}\le
 endsnippet
 
 post_jump "create_row_placeholders(snip)"
-snippet "mat(\d)x(\d)" "Matrice n*p" ir
+snippet "mat(\d)x(\d)" "Matrice n*p" bir
 \begin{matrix}
-$0`!p snip.rv = match.group(1)+match.group(2)`
+$1`!p snip.rv = match.group(1)+match.group(2)`
 \end{matrix}
 endsnippet
+post_jump "create_row_placeholders(snip)"
+snippet "matv(\d)x(\d)" "Matrice n*p" bir
+\begin{vmatrix}
+$1`!p snip.rv = match.group(1)+match.group(2)`
+\end{vmatrix}
+endsnippet
+post_jump "create_row_placeholders(snip)"
+snippet "matp(\d)x(\d)" "Matrice n*p" bir
+\begin{pmatrix}
+$1`!p snip.rv = match.group(1)+match.group(2)`
+\end{pmatrix}
+endsnippet
+
 snippet mnpk "Espace vectoriel de matrices"
 \mathcal(M)_{n, p}(\mathbb{K})
 endsnippet
@@ -682,3 +854,213 @@ snippet mnk "Espace vectoriel de matrices carrées"
 \mathcal(M)_n(\mathbb{K})
 endsnippet
 
+#Fonctions Mathématiques
+snippet log "Fonction Logarithme" i
+\log 
+endsnippet
+snippet log( "Fonction Logarithme (parenthèses)" iA
+\log\left( ${VISUAL}${1:\frac{${2:a}}{${3:b}}} \right
+endsnippet
+snippet ln "Fonction Logarithme Néperien" i
+\ln 
+endsnippet
+snippet ln( "Fonction Logarithme Néperien (parenthèses)" i
+\ln\left( ${VISUAL}${1:\frac{${2:a}}{${3:b}}} \right
+endsnippet
+snippet e "Fonction Exponentielle" i
+e^{$1}
+endsnippet
+snippet e( "Fonction Exponentielle (parenthèses)" i
+\exp\left( ${VISUAL}${1:\frac{${2:a}}{${3:b}}} \right
+endsnippet
+snippet exp "Fonction Exponentielle (parenthèses)" i
+\exp\left( ${VISUAL}${1:\frac{${2:a}}{${3:b}}} \right) 
+endsnippet
+
+#Trigonométrie
+snippet sin "Fonction sinus" i
+\sin 
+endsnippet
+snippet sin( "Fonction sinus (parenthèses)" i
+\sin\left( ${VISUAL}${1:\frac{${2:a}}{${3:b}}} \right
+endsnippet
+snippet sin! "Fonction arcsinus" i
+\arcsin 
+endsnippet
+snippet sin!( "Fonction arcsinus (parenthèses)" i
+\arcsin\left( ${VISUAL}${1:\frac{${2:a}}{${3:b}}} \right
+endsnippet
+snippet sinh "Fonction sinus hyperbolique" i
+\sinh 
+endsnippet
+snippet sinh( "Fonction sinus hyperbolique (parenthèses)" i
+\sinh\left( ${VISUAL}${1:\frac{${2:a}}{${3:b}}} \right
+endsnippet
+
+snippet cos "Fonction cosinus" i
+\cos 
+endsnippet
+snippet cos( "Fonction cosinus (parenthèses)" i
+\cos\left( ${VISUAL}${1:\frac{${2:a}}{${3:b}}} \right
+endsnippet
+snippet cos! "Fonction arccosinus" i
+\arccos 
+endsnippet
+snippet cos!( "Fonction arccosinus (parenthèses)" i
+\arccos\left( ${VISUAL}${1:\frac{${2:a}}{${3:b}}} \right
+endsnippet
+snippet cosh "Fonction cosinus hyperbolique" i
+\cosh 
+endsnippet
+snippet cosh( "Fonction cosinus hyperbolique (parenthèses)" i
+\cosh\left( ${VISUAL}${1:\frac{${2:a}}{${3:b}}} \right
+endsnippet
+
+snippet tan "Fonction tan" i
+\tan 
+endsnippet
+snippet tan( "Fonction tan (parenthèses)" i
+\tan\left( ${VISUAL}${1:\frac{${2:a}}{${3:b}}} \right
+endsnippet
+snippet tan! "Fonction arctan" i
+\arctan 
+endsnippet
+snippet tan!( "Fonction arctan (parenthèses)" i
+\arctan\left( ${VISUAL}${1:\frac{${2:a}}{${3:b}}} \right
+endsnippet
+snippet tanh "Fonction tan hyperbolique" i
+\tanh 
+endsnippet
+snippet tanh( "Fonction tan hyperbolique (parenthèses)" i
+\tanh\left( ${VISUAL}${1:\frac{${2:a}}{${3:b}}} \right
+endsnippet
+
+snippet _t "commande perso. indice" i
+\indice{$1}
+endsnippet
+
+snippet a0 "a_0" iA
+a_0
+endsnippet
+snippet a1 "a_1" iA
+a_1
+endsnippet
+snippet a2 "a_2" iA
+a_2
+endsnippet
+snippet a3 "a_3" iA
+a_3
+endsnippet
+snippet a!n "a_{n-1}" iA
+a_{n-1}
+endsnippet
+snippet ann "a_n" iA
+a_n
+endsnippet
+snippet x0 "x_0" iA
+x_0
+endsnippet
+snippet x1 "x_1" iA
+x_1
+endsnippet
+snippet x2 "x_2" iA
+x_2
+endsnippet
+snippet x3 "x_3" iA
+x_3
+endsnippet
+snippet x!n "x_{n-1}" iA
+x_{n-1}
+endsnippet
+snippet xn "x_n" iA
+x_n
+endsnippet
+snippet y0 "y_0" iA
+y_0
+endsnippet
+snippet y1 "y_1" iA
+y_1
+endsnippet
+snippet y2 "y_2" iA
+y_2
+endsnippet
+snippet y3 "y_3" iA
+y_3
+endsnippet
+snippet y!n "y_{n-1}" iA
+y_{n-1}
+endsnippet
+snippet yn "y_n" iA
+y_n
+endsnippet
+snippet z0 "z_0" iA
+z_0
+endsnippet
+snippet z1 "z_1" iA
+z_1
+endsnippet
+snippet z2 "z_2" iA
+z_2
+endsnippet
+snippet z3 "z_3" iA
+z_3
+endsnippet
+snippet z!n "z_{n-1}" iA
+z_{n-1}
+endsnippet
+snippet zn "z_n" iA
+z_n
+endsnippet
+
+snippet AVEC "avec..." i
+\qquad \text{ ${1:avec} }
+endsnippet
+snippet AVEC! "avec... (liste)" i
+avec :
+\begin{itemize}
+\item ${1:x=2}
+\item ${2:y en \si{\meter\per\second}}
+\end{itemize}
+endsnippet
+
+snippet puces "liste à puces" i
+\begin{itemize}[label=\textbullet]
+	\item ${VISUAL}$1
+\end{itemize}
+endsnippet
+
+#tcolorbox :
+snippet tcbox "tcolorbox" i
+\begin{${1:theoreme}}[$2]{${3:Titre}}{}
+$4
+\end{$1}
+
+endsnippet
+snippet tcbtheo "tcolorbox" i
+\begin{theoreme}[$1]{${2:Titre}}{}
+$3
+\end{theoreme}
+
+endsnippet
+snippet tcbm "tcboxmath" i
+\tcboxmath[$1]{$2}
+
+endsnippet
+snippet tcbhlm "tcbhighmath" i
+\tcbhighmath[$1]{$2}
+
+endsnippet
+snippet tcbhm "tcbhighmath" i
+\tcbhighmath[$1]{$2}
+
+endsnippet
+snippet tcbhlm! "tcbhighmath multiline (empheq)" i
+\begin{empheq}[box=\tcbhighmath]{${1:align*}}
+$2 &${3:=} $4 \\
+$5 &${6:=} $7
+\end{empheq}
+
+endsnippet
+snippet tcbhm! "tcbhighmath multiline (empheq)" i
+
+endsnippet
