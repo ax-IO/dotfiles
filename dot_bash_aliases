@@ -1,0 +1,82 @@
+## Basic Aliases
+alias ls='ls --color=auto'
+alias ll='ls -Flarth'
+# Move, but tell me what you moved and warn me if I'm going to overwrite something.
+alias mv="mv -iv"
+# Copy, but also copy directories recursively, and tell me what you copied, oh and tell me if I'm going to overwrite something.
+alias cp="cp -riv"
+# Make directory, but tell me what you made, and make any missing directories too.
+alias mkdir='mkdir -vp'
+alias rm="rm -riv"
+
+## xev Simple
+alias xevsimple="xev | sed -n 's/.*keycode *\([0-9]\+\)[^,]*, \([^)]\+\)).*$/keycode \1, keysym \2/p'"
+## Nom/Classe de l'application
+alias class='xprop | grep WM_CLASS'
+
+## Reload Polybar
+#alias polyr='bash $HOME/.config/polybar/launch.sh &'
+
+## A quick way to get out of current directory
+alias ..='cd ..'
+alias ...='cd ../../'
+alias ....='cd ../../../'
+alias .....='cd ../../../../'
+
+## Echo Path Command
+alias path='echo -e ${PATH//:/\\n}'
+
+## Pacman aliases
+alias miroir='curl -s "https://www.archlinux.org/mirrorlist/?country=FR&country=GB&protocol=https&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 5 - | sudo tee /etc/pacman.d/mirrorlist'
+
+## Visual Studio Code - Launch with Conda Environment 
+alias code='source ~/anaconda3/bin/activate openCV && code'
+
+## Zathura-Pywal
+alias zathura=/home/axiom/.local/bin/zathura
+
+## Config Files
+alias src='source ~/.bashrc'
+
+alias cxi='chezmoi edit ~/.xinitrc'
+alias cxinit=cxi
+
+alias cali='chezmoi edit ~/.bash_aliases'
+alias calias=cali
+
+alias cbash='chezmoi edit ~/.bashrc'
+
+alias cxini='chezmoi edit ~/.xinitrc'
+alias cxinit=cxini
+
+alias cpoly='chezmoi edit ~/.config/polybar/config.ini'
+alias cpolybar=cpoly
+
+alias ci3='chezmoi edit ~/.config/i3/config'
+alias ci3wm=ci3
+
+alias cbsp='chezmoi edit ~/.config/bspwm/bspwmrc'
+alias cbspwm=cbsp
+
+alias csxh='chezmoi edit ~/.config/sxhkd/sxhkdrc'
+alias csxhkd=csxh
+
+alias cpic='chezmoi edit ~/.config/picom/picom.conf'
+alias cpicom=cpic
+
+alias cdun='chezmoi edit ~/.config/dunst/dunstrc'
+alias cdunst=cdun
+
+alias czat='chezmoi edit ~/.config/zathura/zathurarc'
+alias czathura=czat
+
+##alias cterm='chezmoi edit ~/.config/termite/config'
+##alias ctermite=cterm
+
+alias cala='chezmoi edit ~/.config/alacritty/alacritty.yml'
+alias calacritty=cala
+
+alias cvi='chezmoi edit ~/.vimrc'
+alias cvim=cvi
+
+

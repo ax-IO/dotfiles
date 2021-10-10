@@ -1,0 +1,46 @@
+#
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# Define default text editor
+export EDITOR=vim
+export VISUAL=vim
+export CALCULATOR=qalculate-gtk
+
+# Aliases are located in ~/.bash_aliases
+if [ -f ~/.bash_aliases ]; then
+	. ~/.bash_aliases
+fi
+
+# Prompt
+PS1='[\u@\h \W]\$ '
+
+export PATH="${PATH}:/home/axiom/.local/bin:/home/axiom/.cargo/bin:/home/axiom/.itch"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+#__conda_setup="$('/home/axiom/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+#if [ $? -eq 0 ]; then
+    #eval "$__conda_setup"
+#else
+    #if [ -f "/home/axiom/anaconda3/etc/profile.d/conda.sh" ]; then
+        #. "/home/axiom/anaconda3/etc/profile.d/conda.sh"
+    #else
+        #export PATH="/home/axiom/anaconda3/bin:$PATH"
+    #fi
+#fi
+#unset __conda_setup
+# <<< conda initialize <<<
+
+# Powerline
+powerline-daemon -q
+POWERLINE_BASH_CONTINUATION=1
+POWERLINE_BASH_SELECT=1
+. /usr/share/powerline/bindings/bash/powerline.sh
+
+# Add this to your .xinitrc or whatever file starts programs on startup.
+# -R restores the last colorscheme that was in use.
+wal -R

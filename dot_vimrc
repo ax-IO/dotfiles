@@ -1,0 +1,295 @@
+" An example for a vimrc file.
+"
+" Maintainer:	Bram Moolenaar <Bram@vim.org>
+" Last change:	2017 Sep 20
+"
+" To use it, copy it to
+"     for Unix and OS/2:  ~/.vimrc
+"	      for Amiga:  s:.vimrc
+"  for MS-DOS and Win32:  $VIM\_vimrc
+"	    for OpenVMS:  sys$login:.vimrc
+
+" Basic configurations (Luke-Smith inspired)
+set nocompatible
+filetype plugin on
+" syntax on
+set encoding=UTF-8
+set number relativenumber
+set mouse=a
+set autochdir
+
+" spell checking
+function! ToggleSpellLang()
+    " toggle between en and fr
+    if &spelllang =~# 'en'
+        :set spelllang=fr
+    else
+        :set spelllang=en
+    endif
+endfunction
+nnoremap <F7> :setlocal spell!<CR> " toggle spell on or off
+nnoremap <F8> :call ToggleSpellLang()<CR> " toggle language
+ hi clear SpellBad
+ hi clear SpellCap
+ hi clear SpellRare
+ hi clear SpellLocal
+ hi SpellBad   cterm=underline ctermfg=9  ctermbg=0 gui=undercurl
+ hi SpellCap   cterm=underline ctermfg=14 ctermbg=0 gui=undercurl
+ hi SpellRare  cterm=underline ctermfg=13 ctermbg=0 gui=undercurl
+ hi SpellLocal cterm=underline ctermfg=11 ctermbg=0 gui=undercurl
+nnoremap zn ]s
+nnoremap zp [s
+nnoremap zN G[s
+nnoremap zP gg]s
+" Enable autocompletion:
+	set wildmode=longest,list,full
+" Disables automatic commenting on newline:
+	autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+" Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
+set splitbelow splitright
+
+"map <Up> <Esc>gki
+"map <Down> <Esc>gji
+map <C-Up> g<Up>
+map <C-Down> g<Down>
+imap <C-Up> <C-[> g<Up>i
+imap <C-Down> <C-[> g<Down>i
+
+nnoremap <c-l> :nohl<cr><c-l>
+
+" The following mappings (which can go in your vimrc) simplify navigating the results of quickfix commands such as (among others) :helpgrep
+" (from http://vim.wikia.com/wiki/Learn_to_use_help#Simplify_help_navigation)
+:nnoremap <S-F1>  :cc<CR>
+:nnoremap <F2>    :cnext<CR>
+:nnoremap <S-F2>  :cprev<CR>
+:nnoremap <F3>    :cnfile<CR>
+:nnoremap <S-F3>  :cpfile<CR>
+:nnoremap <F4>    :cfirst<CR>
+:nnoremap <S-F4>  :clast<CR>
+
+" When started as "evim", evim.vim will already have done these settings.
+if v:progname =~? "evim"
+  finish
+endif
+
+" Get the defaults that most users want.
+source $VIMRUNTIME/defaults.vim
+
+if has("vms")
+  set nobackup		" do not keep a backup file, use versions instead
+else
+  set backup		" keep a backup file (restore to previous version)
+  if has('persistent_undo')
+    set undofile	" keep an undo file (undo changes after closing)
+  endif
+endif
+
+if &t_Co > 2 || has("gui_running")
+  " Switch on highlighting the last used search pattern.
+  set hlsearch
+endif
+
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+
+  " Put these in an autocmd group, so that we can delete them easily.
+  augroup vimrcEx
+  au!
+
+  " For all text files set 'textwidth' to 78 characters.
+  autocmd FileType text setlocal textwidth=78
+
+  augroup END
+
+else
+
+  set autoindent		" always set autoindenting on
+
+endif " has("autocmd")
+
+" Add optional packages.
+"
+" The matchit plugin makes the % command work better, but it is not backwards
+" compatible.
+" The ! means the package won't be loaded right away but when plugins are
+" loaded during initialization.
+if has('syntax') && has('eval')
+  packadd! matchit
+endif
+
+" vim-plug automatic installation
+if empty(glob('~/.vim/autoload/plug.vim'))
+ silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+ autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" VIM-PLUG SECTION
+" Specify a directory for plugins
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes
+
+" vimtex
+ Plug 'lervag/vimtex'
+" vim-latex aka latex-suite
+" Plug 'vim-latex/vim-latex'
+
+" Neo-Snipet
+"if has('nvim')
+"  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"else
+"  Plug 'Shougo/deoplete.nvim'
+"  Plug 'roxma/nvim-yarp'
+"  Plug 'roxma/vim-hug-neovim-rpc'
+"endif
+"let g:deoplete#enable_at_startup = 1
+"
+"Plug 'Shougo/neosnippet.vim'
+"Plug 'Shougo/neosnippet-snippets'
+
+" Ultisnips
+" Track the engine.
+Plug 'SirVer/ultisnips'
+" Snippets are separated from the engine. Add this if you want them:
+Plug 'honza/vim-snippets'
+
+Plug 'vim-scripts/vim-auto-save'
+Plug 'Valloric/YouCompleteMe'
+Plug 'scrooloose/nerdcommenter'
+
+" On-demand loading
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+"Plug 'ryanoasis/vim-devicons'
+" Plugin outside ~/.vim/plugged with post-update hook
+Plug '~/.fzf'
+
+" Surroundind
+Plug 'tpope/vim-surround'
+"Plug 'machakann/vim-sandwich'
+
+" ColorSchemes
+Plug 'morhetz/gruvbox'
+Plug 'lifepillar/vim-solarized8'
+
+" Icons
+Plug 'ryanoasis/vim-devicons'
+
+" Folding
+Plug 'Konfekt/FastFold'
+" Initialize plugin system
+call plug#end()
+" VIM-PLUG SECTION END
+
+" map NERDTree
+map <C-n> :NERDTreeToggle<CR>
+" NERDCommenter configuration
+
+
+" Powerline options
+set  rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim/
+set laststatus=2
+set t_Co=256
+let g:powerline_pycmd="py3"
+
+" Auto-Save options
+let g:auto_save = 1  " enable AutoSave on Vim startup
+let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
+" TeX/LaTeX configurations
+let g:tex_flavor = "latex"
+
+" vimtex plugin configuration
+"let g:vimtex_view_general_viewer = 'okular'
+"let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+"let g:vimtex_view_general_options_latexmk = '--unique'
+"let g:vimtex_view_general_viewer = 'mupdf'
+let g:vimtex_view_general_viewer = '/home/axiom/.local/bin/zathura'
+let g:vimtex_quickfix_ignore_filters = [
+          \ 'hbox',
+          \]
+
+"let g:vimtex_fold_enabled='1'
+"let g:vimtex_fold_manual='1'
+nnoremap <silent><buffer><nowait> zs :call vimtex#fold#refresh('zX')<cr>
+
+" FastFold options
+"nmap zuz <Plug>(FastFoldUpdate)
+"let g:fastfold_savehook = 0
+"let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
+"let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
+"let g:markdown_folding = 1
+"let g:tex_fold_enabled = 1
+"let g:vimsyn_folding = 'af'
+"let g:xml_syntax_folding = 1
+"let g:javaScript_fold = 1
+"let g:sh_fold_enabled= 7
+"let g:ruby_fold = 1
+"let g:perl_fold = 1
+"let g:perl_fold_blocks = 1
+"let g:r_syntax_folding = 1
+"let g:rust_fold = 1
+"let g:php_folding = 1
+
+" NeoSnippet Option"s
+"" Plugin key-mappings.
+"" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+"smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+"xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+"" SuperTab like snippets behavior.
+"" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+""imap <expr><TAB>
+"" \ pumvisible() ? "\<C-n>" :
+"" \ neosnippet#expandable_or_jumpable() ?
+"" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+"smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+"\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+"" For conceal markers.
+"if has('conceal')
+  "set conceallevel=2 concealcursor=niv
+"endif
+
+" Enable auto-completion with YCM
+if !exists('g:ycm_semantic_triggers')
+	let g:ycm_semantic_triggers = {}
+endif
+let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
+
+let mapleader="\<Space>"
+let maplocalleader="\\"
+let g:vimtex_imaps_leader="è"
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+"let g:ycm_key_list_select_completion = ['<TAB>', '<Down>'] "Default
+let g:UltiSnipsExpandTrigger="<c-space>"
+let g:UltiSnipsJumpForwardTrigger="<space><space>"
+let g:UltiSnipsJumpBackwardTrigger="<space><BS>"
+
+let g:UltiSnipsSnippetsDir="~/.vim/snips"
+let g:UltiSnipsSnippetDirectories=["snips", "UltiSnips"]
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+"Open UltiSnips edit function
+nmap <localleader>ue :UltiSnipsEdit<cr>
+nmap <localleader>ts :vsp<SPACE>~/.vim/plugged/vim-snippets/snippets/tex.snippets<CR>:sp<SPACE>~/.vim/plugged/vim-snippets/UltiSnips/tex.snippets<CR>:sp<SPACE>~/.vim/plugged/vim-snippets/UltiSnips/texmath.snippets<CR>
+
+
+
+nmap <localleader>la <localleader>ls<localleader>ll
+
+" Commandes latex mode math
+vmap m di$<SPACE><Esc>gpi<SPACE>$
+vmap M di[\<SPACE><Esc>gpi<SPACE>\]
+
+"inoremap ( ()<left>
+"inoremap [ []<left>
+"inoremap { {}<left>
+
+" Mouse working on alacritty
+"ttymouse=sgr
+
+" run chezmoi apply whenever I save a dotfile
+autocmd BufWritePost ~/.local/share/chezmoi/* ! chezmoi apply --source-path "%"
+
